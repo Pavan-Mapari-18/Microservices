@@ -1,0 +1,203 @@
+----------------------------------------------------------------Microservices------------------------------------------------------------------------------------------
+
+✅ What Are Microservices?
+                           Microservices is an architectural style where an application is composed of small, independent services, each focused on a single business capability.
+  Each microservice:
+
+    Runs in its own process
+
+    Has independent data storage
+
+    Communicates over HTTP/REST, gRPC, or messaging queues
+
+    Is independently developed, deployed, and scaled
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+🛠 Technologies Used for Microservices in Java:
+| Area              | Tools / Frameworks                                  |
+| ----------------- | --------------------------------------------------- |
+| Framework         | **Spring Boot**, Quarkus, Micronaut                 |
+| API Communication | **Spring MVC (REST)**, Feign Client                 |
+| Service Discovery | **Eureka**, Consul, Zookeeper                       |
+| API Gateway       | **Spring Cloud Gateway**, Zuul, Kong                |
+| Load Balancing    | **Ribbon**, Spring Cloud LoadBalancer               |
+| Configuration     | **Spring Cloud Config**, Consul KV                  |
+| Authentication    | **OAuth2**, JWT, Spring Security                    |
+| Monitoring        | **Sleuth**, Zipkin, ELK Stack, Prometheus + Grafana |
+| Resilience        | **Resilience4j**, Hystrix                           |
+| Messaging         | **RabbitMQ**, **Apache Kafka**, ActiveMQ            |
+| Containerization  | **Docker**, Kubernetes (K8s)                        |
+| CI/CD             | Jenkins, GitLab CI, GitHub Actions                  |
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+🧱 Core Components of Java Microservices
+1. Spring Boot
+
+    Used to create lightweight, stand-alone REST services.
+
+    Key features: Embedded server (Tomcat), minimal configuration, starter dependencies.
+
+2. Spring Cloud
+
+    Set of tools for building common patterns in distributed systems:
+
+        Service Discovery (Eureka)
+
+        Centralized Config (Config Server)
+
+        Load Balancing
+
+        Circuit Breakers (Resilience4j)
+
+        Gateway Routing
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+📬 Communication Between Microservices
+
+    REST APIs (using HTTP)
+
+    Message Queues (RabbitMQ, Kafka)
+
+    gRPC (for high-performance binary communication)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🔐 Security in Microservices
+
+    Use Spring Security
+
+    Token-based authentication (JWT)
+
+    OAuth2 for SSO (Single Sign-On)
+
+    Centralized Authentication Service
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+🧪 Testing Microservices
+
+    Unit Testing: JUnit, Mockito
+
+    Integration Testing: TestContainers, WireMock
+
+    Contract Testing: Pact
+
+    End-to-End Testing: Postman, REST Assured
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+📦 Deployment & Scaling
+
+    Use Docker to containerize microservices
+
+    Orchestrate using Kubernetes
+
+    Deploy using CI/CD pipelines (Jenkins, GitHub Actions)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+📊 Monitoring & Logging
+
+    Spring Boot Actuator
+
+    Distributed Tracing: Sleuth + Zipkin
+
+    Centralized Logs: ELK (Elasticsearch, Logstash, Kibana)
+
+    Metrics: Prometheus + Grafana
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+What are the advantages of Microservices?
+
+Independent development and deployment
+
+Better scalability
+
+Technology flexibility
+
+Fault isolation
+
+Easier to maintain and test
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+What is the difference between Monolithic and Microservices architecture?
+
+| Feature          | Monolithic           | Microservices       |
+| ---------------- | -------------------- | ------------------- |
+| Codebase         | Single               | Multiple            |
+| Deployment       | All modules together | Independently       |
+| Scaling          | Whole app            | Specific services   |
+| Fault tolerance  | Low                  | High                |
+| Technology Stack | Same                 | Polyglot (can vary) |
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+How do microservices communicate with each other?
+
+Answer:
+
+    Synchronous: REST APIs (HTTP), gRPC
+
+    Asynchronous: Message brokers (RabbitMQ, Kafka)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+What is Spring Boot and why is it used in microservices?
+
+Answer:
+Spring Boot simplifies microservice development by providing:
+
+    Embedded servers
+
+    Auto-configuration
+
+    Production-ready features (actuator, health checks)
+
+    Easy integration with Spring Cloud
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+What is service discovery?
+
+Answer:
+Service discovery enables microservices to find each other dynamically without hardcoding hostnames. Tools like Eureka, Consul, or Zookeeper are used for this.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What is an API Gateway and why do we need it?
+
+Answer:
+API Gateway acts as a single entry point to the microservices. It:
+
+    Handles routing
+
+    Performs authentication/authorization
+
+    Rate limiting, logging, and monitoring
+
+Examples: Spring Cloud Gateway, Zuul, Kong
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ How is fault tolerance achieved in microservices?
+
+Answer:
+Using patterns and tools like:
+
+    Circuit Breaker (Resilience4j, Hystrix)
+
+    Retries
+
+    Timeouts
+
+    Bulkheads
+
+    Fallbacks
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+What is the difference between orchestration and choreography in microservices?
+
+Answer:
+
+    Orchestration: A central service controls the flow (e.g., using a Saga orchestrator)
+
+    Choreography: Services react to events and manage flow collaboratively (event-driven)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+What is a distributed transaction? How is it handled in microservices?
+
+Answer:
+A distributed transaction spans multiple services/databases. In microservices, it’s usually handled via the Saga Pattern:
+
+    Choreography-based: Services listen to and produce events.
+
+    Orchestration-based: A central controller manages the flow.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
