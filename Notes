@@ -1,1 +1,18 @@
+spring.application.name=EMPLOYEE-SERVICE
+
+server.port=8082
+
+#Register with eureka
+eureka.client.register-with-eureka=true
+
+#able to fetch other microservices details.
+eureka.client.fetch-registry=true
+
+#eureka location
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+
+#Instance Id
+eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+
 
