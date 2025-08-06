@@ -1,18 +1,1145 @@
+		
+		
+		
+		
+------------------------------------------------------------------------------------------------------------------------------
+		
+                        *   Monolithic Application *
+
+*) Application : Collection of Services
+   Project     : Collection of Modules
+
+*) All Services/Modules are implemented and bounded as single unit
+   is called as Monolithic App.
+  
+Monolithic App : An application that contains all services/modules 
+	  together is called as Monolithic App.
+
+Adv:-
+1. Simple to Develop App
+2. Simple to Test.
+3. Simple to Deploy.
+4. Simple to Scale.
+
+Limitations:-
+
+
+
+
+Q) What is Scaling ? What are different types?
+
+--Task---------------------
+a. How Monolithic App are developed?
+
+b. Give Example of Monolithic Apps?
+
+c. What are limitations of Monolithic Apps?
+
+
+			
+------------------------------------------------------------------------------------------------------------------------------
+
+	   Monolithic Application v/s Microservices (Spring Cloud)
+
+ Application - It is a collection of Services
+     Project - It is a collection of Modules
+
+*) Monolithic Application:-
+ An application contains all services together as single unit
+ (single .war/.jar file)
+  
+
+Q) What is Build?
+A) Converting our code to final format is called as build
+    ie  .jar/.war in java.
+
+Q) What is Deploy?
+A) Place Archive(JAR/WAR) in Server and start application.
+
+Q) What is default request threads count allowed in Java servers?
+A) 200 is default value. ie at a time 200 Client machines can make request.
+   We can even modify by using below keys
+     server.tomcat.threads.max=200
+     server.jetty.threads.max=200
+
+
+ 1 Request --> 1 Thread /Max Cap - 200 
+
+Q)*** What is Service Instance/Server Instance?
+A) An Application running under server currently is known as
+   Service Instance.
+
+Q)** What is Load and Load Factor?
+A)
+  Load = Current no. of request under processing by one Instance
+  Load Factor(LF)  = Current Load /Max Load
+
+  0 < LF < 1 
+
+Q) What is Load Balancing ? Why is required?
+A) Creating multiple instances to provide fast/more service to
+   end users.
+
+   When Client made request, LBS(Load Balancer Server) chooses
+   one instance which has less load factor, if multiple instances
+   has same LF then choose one Instance randomly and execute it.
+
+Q) What is Scaling? How many types we have?
+A) 
+   Scaling : increasing System/Service Capacity for 
+           fast service to enduser.
+
+  Types:
+  Horizontal Scaling : Creating one more instance of same system/Service
+                      [multiple computers]
+  
+   ex: Web Application Instances
+
+  Vertical Scaling : Increasing System hardware capacity is called as
+                    Vertical scaling.
+
+   ex: Database Servers Instances
+------------------------------------------------------------------
+Cloud Computing (AWS/Google Cloud/Azure)
+*)Pay on Usage
+
+SaaS = Software as a Service (ex: Oracle DB for Rental)
+Paas = Platform as a Service (Linux OS For Rental)
+IaaS = Infrastrecture as a Service ( 30 Core Process i3/18GB RAM/m2M)
+
+*) Once you code your application, you should run it in any one system
+  24x7 ie cloud computing (Very very very big computer- for rental).
+-----------------------------------------------------------------------
+AWS is system/runtime env to place and run our application overinternet.
+
+
+			
+		  -----------------------------
+		    Monolithic Applications
+
+Advantages :-
+a. Easy to Code/Simple to Develop as it is one technology.
+b. Deploy and Scale are easy, full code is one unit(.war file)
+c. Testing can be done in easy way and even Log Maintainance.
+
+Drawbacks :-
+a. Even for small code update, entire app must be re-build and
+   re-deploy.
+
+b. Application may get stopped/Down, even if small bug exist in
+   one module (may effect full application)
+
+c. Adding other technologies/concepts may lead design changes.
+   [takes more time, high level code chnages required]
+
+d. As no.of Modules/Services gets increased then Application size
+    gets increased, even code becomes complex.
+
+e. CI/CD Configuration is easy but process is time consuming.
+    [Startup time may get increased]
+---------------------------------------------------------------
+		
+		                        Microservices (Overview)
+
+*) Converting one Service/Module as one Application/Project
+   and linking them using webservices is known as Microservice deign.
+
+*) Microservices is a concept of Divide and Connect (DeCoupled)
+   Architecture.
+
+Advantages:-
+a. This design provides Service implementation and runtime
+    with less size(less price)
+
+b. It provides more no.of Req Capacity (as no.of service instances
+    are increased)
+
+c. Easy to Scale (Up/Down) them based on Load Details.
+
+d. Code updates in one service may not effect other services
+   No need of Stopping other services for re-deploye of one service
+
+e. If one service(or one instance) is down, those may not effect
+   other services.
+
+f. Size gets reduces as they are independent and deployed
+   (Application size  gets reduced)
+
+*) Limitations  :-
+a.*** Maintainance is not easy as more no.of services and instances exist
+
+b. Log File Handling needs other tools (ELK/Zipkin and Sleuth)
+
+c. Application debug is more complex task and even testing also.
+
+d. For Client Application/Consumer coding , code may get duplicated
+   some times.
+---------------------------------------------------------------------
+
+*) If application is simple and small then use Monolithic Design
+   If Application is distributed and more complex, high usages
+   then go for microservices.
+
+# Monolithic #
+Hotel--> Billing System 
+Park Ticket System.
+
+# Microservices #
+ Ola Cabs, Amazon App, Banking Apps
+------------------------------------------------------------------------
+
+
+			
+	------------------------------------------------
+PDF:
+https://www.mediafire.com/file/w5x9w5vcmkwkkdv/RaghuSirNareshITJavaPdfs.zip/file
+
+		
+		Microservices # Spring Cloud - Netflix
+
+Microservices:-
+ Define every service as one application and link them using 
+ Webservices.
+
+Q) What is the difference b/w MS and WS?
+A) 
+  Webservices : Linking two different application
+  Microservices : Converting one Big Application into small projects
+                    and link them using webservices.
+-----------------------------------------------------------------
+		   Microservices Design
+
+a) MS# -> Microservice Application implemented using Spring Boot REST
+  (RestController, GetMapping, ResponseEntity<T> ...etc)
+
+
+b) R&D Server (Register and Discovery ) Server
+ Every MS# might be running at different computer with multiple instances
+ all those instances details should be provided with R&D Server.
+ 
+ Spring Cloud Netflix has provided Eureka(Tool/ S/w) that behaves like
+ R&D Server
+
+  --------------Eureka R&D ---------------------------------------
+   ServiceId   InstanceId    HOST         PORT   LOAD DETAILS
+
+   SEARCH-APP  SA#1136578  192.168.5.6    8050      0/200
+   SEARCH-APP  SA#0055698  192.163.0.4    8080      0/200
+   SEARCH-APP  SA#5869630  205.102.0.1    8182      0/200
+  -----------------------------------------------------------------
+
+=> Above Example indicates SEARCH-APP (coded once) but running at 
+   3 different systems  (ie 3 instances).
+
+=> Programatically one Line is called as one ServiceInstance.
+
+1 ServiceInstance= 1 x (ServiceId + InstanceId + Host + Port + LFD)
+
+.: Above 3 ServiceInstances exist for SEARCH-APP Application.
+
+.: What Eureka contains?
+ What is App Name?
+ What is instance ID? Unique Number? (AutoGenerated)
+ Where it is running? (IP/PORT)?
+ Currently How many request under processing? (Load Details)?
+
+
+Q) Will Eureka call any MS? (http Req/Response)?
+A) No. It is a Strorage area. It holds details of MS only.
+   MS should come to Eureka give its details or take other MS details.
+
+Q) Will Eureka store all Instance details with it?
+A) YES. Every MS may have multiple instances, those must be stored
+   with Eureka.
+
+Q) How many Eureka Server can exist in Design?
+A) Only One. 
+
+Q) Can we call Eureka as Discovery Server?
+A) YES, it means if one MS# wants to communicate with other MS#
+   then Eurkea provides its details.
+
+ If one MS#(Consumer) wants to Communicate with Other MS#(Producer)
+ then along with eureka we should also use one client tool
+  a. DiscoveryClient (Legacy)
+  b. *** LoadBalancerClient(Ribbon)
+  c. **FeignClient (Open Feign/Abstract Client)
+--------------------------------------------------------------
+c) Config Server:-
+
+   MS# is implemented using Spring Boot concept only
+   ie it contains properties/YAML File.
+
+=> Multiple MS# will be having common key=val pairs
+   (not only key, both  key and value), those can be taken outside
+   and place in Config Server.
+
+=> Config Server Follows Git Concept.
+   Git Vendors,
+     a. Github
+     b. Gitlab**
+     c. Bitbucket
+          ..etc
+
+-----------------------------------------------------------
+d) Circuit Breaker (Netflix Hystrix)
+
+=> try-catch blocks handled the exception
+   where CB(Circuit Breaker) avoid exception
+   by providing dummy response (Ex: "Please try Later!")
+   
+=> Circuit Breaker is manily designed for Payments/Finance ..etc
+-------------------------------------------------------------
+e) Distributed Logging and Tracing 
+  (Zipkin and Sleuth or Elasticsearch-Logstash-Kibana)
+
+=> ELK collects all Log files data and display at Kibana UI
+  Single Place for all logs in easy search (date/time wise even)
+
+=> ELK is DevOps Tool (similer...Splunk..etc) 
+
+-----------------------------------------------------
+f) MQs(Message Queue)
+=>Data flow in continiousely between two(or more) systems
+ex: Swiggy /Ola cab/ Ubercab / Live Train Status/Cricket score
+   ..etc
+
+1. **Apache ActiveMQ(JMS)
+2. RabbitMQ (Example)
+3. ***Apache Kafka (Tool)
+
+			Date : 09/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+	 ------------------------------------------
+	   Spring Cloud - Netflix (For Microservices)
+
+Q) What is the diff b/w Microservices and Webservices(REST)?
+A) 
+  Webservices: Link two different applications
+  Microservices : One Big App is divided into small applications
+          and finally link them using Webservices(REST).
+
+Q) What is the diff b/w Spring Cloud and Cloud Computing(AWS)?
+A)
+   Spring Cloud is Framework(API) used to create Application
+    using Microservices concept. [coding purpose]
+
+   Cloud Computing a place /system where we can run/deploy our application
+   (Runtime Environment, pay per use - OS, N/w, HardDisk, Software..etc)
+   [Run Application purpose]
+
+---------Components in Spring Cloud---------------------------
+a. MS# Microservice : Develop Application for a Service using Spring REST
+  ex: PaymentService, CartService, SearchService, UserService..etc
+  (Every Service is a Spring Boot REST Project).
+
+b. Register and Discovery Server:
+  -> Every MS# must be registered with R&D Server
+  -> R&D Server is 'Netflix Eureka'
+  -> it supports even finding of other MS (Intra Communication)
+
+c. Config Server ( git Accounts):
+   To place all common key=vals in one place for all MS#.
+
+d. Circuit Breaker (Hystrix) :
+  Avoid execution of code and give dummy response, if application
+  is throwing exceptions continiousely...
+
+e) Distributed Logging and Tracing (ELK/Zipkin and Sleuth)
+  In our App, we can have multiple MS#, for all MS# log files
+  data can be fetch into one UI using ELK (UI).
+  or trace using Zipkin and Sleuth.
+
+f) Message Queues (Apache Kafka):
+	Continioues Data Flow between two or more systems.
+
+g) API Gateway (Netflix Zuul) :
+  This is like a Single entry and exit for our MS Design.
+
+ Flow
+ -> Client Makes Request
+ -> Request goes to Zuul
+ -> Zuul selects one ServiceId based on Path(URL)
+ -> Goto Eurkea to find Service Details
+ -> Eureka gives ServiceInstance info
+ -> Zuul makes call to MS# instance
+ -> MS# process request and gives response
+ -> Zuul takes response from MS# and give to Client
+-----------------------------------------------------------
+Q) What is IP Address? How many types we have?
+A) 
+   IP : Internet Protocol, IPv4 and IPv6
+
+   Private IP  : Local network (LAN) [not connected to internet]
+
+   Public  IP  : A System IP which is connected to internet.
+      [it is never going to be same alwasy, it gets changed]
+
+   Elastic IP : A Fixed Public IP for a system.
+
+*) Here Zuul in realtime runs with Public IP.
+   Also it has one Private IP for connecting with
+   other MS# components(Eureka, ..)
+==================================================
+Exp 3+
+AWS Solution Architecture Associate - II
+
+
+			Date : 10/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+	 ------------------------------------------
+ 	   Spring Cloud - Netflix (Microservices)
+
+1. Eureka Server (spring-cloud-starter-netflix-eureka-server)
+2. Microservice Example Application
+
+---------------------------------------------------
+1. Eureka Server :
+=> Register and Discovery Server
+=> Register means storage area about a service inforamtion
+    Service Name / project Name / serviceId
+    a uniueq number for application running / InstanceId
+    Access Information (HOST, PORT, Load Details...)
+
+=> Discovery means you can get data of a MS# from register
+   using serviceId.
+
+Q) Can our maven project(child project) have two parents?
+A) No. Not Possible.
+
+  Use One Project as Parent (Inheritance) and another one as 
+  <dependencyManagement> (Association)
+
+*) Spring Cloud Version name codes:
+https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies
+
+*) So far we created Spring Boot Applications which contains only
+   one parent spring-boot-starter-parent.
+   This time , if we try to create project for Microservices
+   then one Parent 'Spring Boot' and another parent 'Spring Cloud'
+   are added to project.
+
+*) As we known that one maven project can not have two parents,
+   then spring boot is parent and spring cloud is BOM (Bill Of Materials)
+   ie A POM file (Parent internally) added as <dependencyManagement>
+   tag. 
+------Eureka Application Setup-----------------------------------
+S#1 Create Spring Starter Project
+Name : SpringCloudEurekaApp
+Dep  : Eureka Server
+
+S#2 At starter class: @EnableEurekaServer
+
+S#3 application.properties
+server.port=8761
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+S#4 Run Starter class and enter URL
+http://localhost:8761
+
+*)Note:
+a. Eureka Server recomanded PORT number is : 8761 (we can even modify)
+b. Eureka Server comes default with Spring web dependency so
+   tomcat embedded server added. Directly we can run.
+c. For Every Application (ie Eureka and MS#) parent is Spring Cloud
+   actually MS# should be registerd with eureka, for that key is
+     eureka.client.register-with-eureka=true  (we need to added)
+
+   Here above key default value is true only (given by Spring Cloud)
+   So, need not to add this key in MS# apps, but Eureka also
+   gets same key-val. As eureka can't register with itself,
+   So, we must add this key with value false.
+     eureka.client.register-with-eureka=false
+
+  eureka.client.fetch-registry=false
+  Above key indicates one MS# can get details of other MS
+  From Eureka Register (Discovery Enable).
+  Actually this key must be added in MS# apps with value true.
+  So, Spring Cloud Parent has provided this key with 
+  default value as true.
+    Even same value is given to eureka which is meaning less.
+  Now, we should add this as false in eureka.
+   
+ 
+ -------------------Eureka Register -----------------------------
+  ServiceId       InstanceId     HOST         PORT     LF
+ ------------------------------------------------------------------
+  EMP-APP        EMP:15520     192.168.0.1    8080    0/200
+  EMP-APP        EMP:15520     192.168.0.1    8081    0/200
+  EMP-APP        EMP:15520     192.168.0.1    8082    0/200
+ ------------------------------------------------------------------
+
+*) @EnableEurekaServer annotation
+  -> Activates Eureka Dashboard(UI)
+  -> Activates Eureka Register 
+  -> Activates Client Connect(Supports Discovery Server)
+  -> Exchange data in JSON Format 
+  -> Stores Data in ServiceInstance format(ServiceId+InstanceId+Host+Port+LF)
+  -> For single instance 'InstanceId' is not required , default taken as
+     ServiceId only.
+  
+*) Always IP+PORT combination must be unique.
+   ie if we run multiple instances in one system
+   then port number must be different.
+
+*) HTTP Default port number: 80 (use only for Zuul)
+   Do not use this port number for Eureka or MS# production.
+
+*) A system can have port numbers range : 0-65535
+   0-1204 are reserved port numbers.
+   1025-65535 are called as Open PORTs.
+
+*) One PORT number is allocated to only one Service at a time.
+   ie two services/instances can never run on same port number.
+
+Q) Why Port Number?
+A) OS wants to identify every service running on it by using PORT number.
+---------------------------------------------------------------------
+			Date : 11/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+		------------------------------
+SOA:
+https://www.youtube.com/watch?v=tX1Wtv8Gdpo
+		 	   Spring Cloud - Netflix (Microservices)
+
+1. Eureka Server (spring-cloud-starter-netflix-eureka-server)
+2. Microservice Example Application
+   (Spring REST + Spring Cloud Dependencies)
+-------------------------------------------------------------------
+1. Eureka Application (same as before)
+
+2. Microservice Example Application
+Name : SpringCloudEmployeeService
+Dep  : Spring web, Eureka Discovery Client
+
+*) At Starter class: @EnableEurekaClient
+
+*) properties file
+server.port=8086
+#ServiceId
 spring.application.name=EMPLOYEE-SERVICE
-
-server.port=8082
-
-#Register with eureka
+#Register with Eureka
 eureka.client.register-with-eureka=true
-
-#able to fetch other microservices details.
+#Abel to fetch other MS Details
 eureka.client.fetch-registry=true
-
-#eureka location
+#Eureka location
 eureka.client.service-url.defaultZone=http://localhost:8761/eureka
-
 #Instance Id
 eureka.instance.instance-id=${spring.application.name}:${random.value}
 
+*) RestController
+package in.nareshit.raghu.rest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/emp")
+public class EmployeeRestController {
+
+	@GetMapping("/msg")
+	public String showMsg() {
+		return "Welcome to First MSApp!";
+	}
+}
+
+=========Execution Order==========================
+a. Starter Eureka App
+b. Starter MS App
 
 
+http://192.168.0.8:8086/actuator/info
+http://192.168.0.8:8086/emp/msg
+
+Q) What is the diff b/w ServiceId and InstanceId?
+A)
+  ServiceId - Application name this is provider to App using key
+       spring.application.name=PAYMENT-APP
+
+  InstanceId - if we run our app one time , then it is called as one
+               instance, for every instance Eureka wants to give one 
+	       number ie InstanceId.
+
+    eureka.instance.instance-id= __________(any data is fine, no duplicates)
+
+ex: helloone (valid)
+     123456(valid)
+     abcd_87w^^ (valid)
+ => But in realtime AppName:oneRandomValue is given
+ ex:
+           PAYMENT-APP:a223901bc511d99abc5021
+
+    eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+
+*) Here Instance Id can be any String value. But we prefer HexaDecimal
+   value, which is generated using ${random.value}.
+
+   This expression internally uses a class called:
+   RandomValuePropertySource(C), that uses UUID code for
+   generating one HexaDecimal value
+
+--core java sample code---
+package in.nareshit.raghu;
+
+import java.util.UUID;
+
+public class Test {
+
+	public static void main(String[] args) {
+		//Universally Unique IDentifier (UUID)
+		String uuid =  UUID
+				.randomUUID()
+				.toString()
+				.replaceAll("-", "");
+		System.out.println(uuid);
+	}
+}
+------------------------------------------------------
+Q) Is InstanceId optional or required for MS App?
+A) If we have only one instance (ie We run our code only once)
+   then it is optional.
+   If we want multiple instances (ie we run our code more then 1 time)
+   then it is required.
+
+#Instance Id
+eureka.instance.instance-id=${spring.application.name}:${random.value}
+-----------------------------------------------------------
+		MS Intra Communication
+
+=> one Big Application is divided into small projects, those
+   we are calling as MS Apps.
+
+=> Here, one MS(Module) want to communicate with other MS(Module)
+   ie called as MS Intra Communication (or Internal Communicate).
+
+=> For MS Intra Communication we must use one Client:
+  a. DiscoveryClient 
+  b. LoadBalancerClient**
+  c. FeignClient**
+
+
+			Date : 12/03/2021
+			Spring Boot 6PM
+			   Mr. RAGHU
+		--------------------------------
+		    MS # Intra Communication
+
+*) One MS want to send or receive data with another MS.
+*) One MS can get data of other MS from Eureka.
+*) Use one Client to fetch MS# data from Eureka Server
+  a. Discovery Client
+  b.** Load Balancer Client
+  c.** Feign Client
+
+*)Note:
+a. Two Modules in Monothic Applications ==> Two Projects in Microservices
+b. Every MS# contains one RestController
+c. Every MS# must be registerd with Eureka (PUBLISH)
+d. One MS# RestController can never call
+   directly another MS# RestController. So use RestTemplate.
+
+e. RestTemplate needs HOST and PORT details of another App,
+   we must not hardcode them (later thos details may get changes)
+
+   RestTemplate rt = new RestTemplate();
+   rt.getForEntity("http://192.156.0.2:8080/emp/show",String.class);
+   **Here Writing IP and PORT directly not a good approch.
+
+f. Get HOST, PORT From Eureka Server by using ServiceId
+   with the help of DiscoveryClient. It will get List<SI>
+   (Why List? There can be multiple Instances exist for VendorService)
+
+  ** But Choose one Instance and one URL.
+
+g. Now Provide Dynamic URL to RestTemplate and make call.
+   Finall Provider App gives response , return back to Consumer
+   then to client (response).
+
+Q) Who will given ServiceId?
+A) We are developers writing all services.
+   We know all serviceIds (application names)
+    
+----------------------------------------------------------------
+ a. Discovery Client : This is used to fetch ServiceInstance Data
+     (serviceId,InstanceId, HOST, PORT, LF) from Eureka Server
+     by using ServiceId.
+
+ => Discovey Client  never makes Request to MS#.
+ => Discovey Client  never used to store data.
+ => Discovey Client connects only with Eureka.
+-------------------------------------------------------------------
+
+
+			Date : 13/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+		--------------------------------
+Code Link:
+https://www.mediafire.com/file/8fk83vnwypx78jv/SpringCloudDiscoveryClient_13032021_RAGHU_MS.zip/file
+	     DiscoveryClient : MS# Intra Communication
+
+DiscoveryClient : This is used to fetch one MS# details
+            ServiceInstance(SID,IID,HOST,PORT,LF..) from Eureka.
+
+=> DiscoveryClient never makes any HTTPcall. 
+=> It will communicate only with Eureka using ServiceId.
+=> We can use method getInstances() which takes ServiceId and 
+   returns List<ServiceInstance>
+
+      getInstances(serviceId):List<ServiceInstances>
+
+=> Read ServiceInstances from index#0 and read URL, 
+   finally add Path which makes URL.
+
+=> use RestTemplate with URL that makes request and get response
+----------------------------------------------------------------
+		DC(DiscoveryClient) Full Code
+
+1# Eureka Server
+
+Name: SpringCloudDCEurekaServer
+Dep : Eureka Server
+
+=> At starter class: @EnableEurekaServer
+=> application.properties
+server.port=8761
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+---------------------------------------------------
+2# (Provider App)
+
+Name: SpringCloudDCBranchService
+Dep : Spring web, Eureka Discovery Client 
+
+=> At Starter class : @EnableEurekaClient
+=> application.properties
+server.port=9696
+spring.application.name=BRANCH-SERVICE
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+#(optional)If we have only one instance
+#eureka.instance.instance-id=
+
+=> RestController
+package in.nareshit.raghu.rest;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BranchRestController {
+
+	@GetMapping("/msg")
+	public String showBranchMsg() {
+		return "FROM BRANCH SERVICE";
+	}
+}
+
+--------------------------------------------------------
+
+3# (Consumer App)
+
+Name: SpringCloudDCCompanyService
+Dep : Spring web, Eureka Discovery Client
+
+=> At Starter class : @EnableEurekaClient
+
+=> application.properties
+server.port=8680
+spring.application.name=COMPANY-SERVICE
+eureka.client.register-with-eureka=true
+eureka.client.fetch-registry=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+
+=> ***RestConsumer
+
+package in.nareshit.raghu.consumer;
+
+import java.net.URI;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+@Component
+public class BranchRestConsumer {
+
+	//#1. Autowire Discovery Client
+	@Autowired
+	private DiscoveryClient client;
+	
+	public String getBranchData() {
+		//#2. call method getInstances(SID)
+		//#3 Read List<SI>
+		List<ServiceInstance> list = client.getInstances("BRANCH-SERVICE");
+		
+		//#4. Read SI from index#0
+		ServiceInstance si = list.get(0);
+		
+		//#5. Read URI from SI
+		URI uri = si.getUri();
+		
+		//#6. Add path to URI that given URL
+		String url = uri + "/branch/msg";
+		
+		//#7. make Request call using RestTemplate
+		RestTemplate rt = new RestTemplate();
+		String response = rt.getForObject(url, String.class);
+		
+		//#8 return response to (ConsumerApp)RestController
+		return response;
+	}
+ 	
+}
+
+
+=> RestController
+
+package in.nareshit.raghu.rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import in.nareshit.raghu.consumer.BranchRestConsumer;
+
+@RestController
+@RequestMapping("/company")
+public class CompanyRestController {
+	
+	@Autowired
+	private BranchRestConsumer consumer;
+
+	@GetMapping("/data")
+	public String showInfo() {
+		return "Company Msg!" + consumer.getBranchData();
+	}
+	
+}
+==============Execution Order==========================
+1. Eureka Server
+2. Provider App (Branch)
+3. Consumer App (Company)
+4. Goto Eureka (http://localhost:8761/) 
+   and Click on Compnay Service Link
+  http://localhost:8680/actuator/info
+5. Modify URL as
+   http://localhost:8680/company/data
+
+Task:
+Student---<>Course
+   Dept---<>Admin
+
+
+			Date : 15/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+			------------------
+CodeLink:
+https://www.mediafire.com/file/sgd4kdl52wsz912/SpringCloudLoadBalancerClient6PM_15032021_RAGHU.zip/file
+		     MS# Intra Communication
+
+a. DiscoveryClient
+=> It is used to fetch ServiceInstance data from eureka server.
+=> It returns all Instances data as List<ServiceInstance>
+=> It is not supporting automated LoadBalance.
+   We are choosing Instance manually with index number.
+
+b. LoadBalancerClient(I)
+=> This is also used to fetch ServiceInstance from Eureka.
+   It supported automated LoadBalance. It will select only
+   one instance which has less load factor always even it 
+   found multiple instances.
+
+*) Impl class is Given by "RibbonLoadBalancerClient(C)"
+   using Spring Cloud Netflix-Ribbon.
+
+=============(code) LoadBalancerClient (LBC)  =======================
+1. Eureka Server
+Name : SpringCloudLBCEureka
+Dep  : Eureka Server
+
+=> At Starter: @EnableEurekaServer
+
+*) application.properties
+server.port=8761
+eureka.client.fetch-registry=false
+eureka.client.register-with-eureka=false
+-----------------------------------------------
+2. Provider App (Course)
+Name : SpringCloudLBCCourseService
+Dep  : Spring web, Eureka Discovery Client
+
+=> At starter class: @EnableEurekaClient
+*) application.properties
+server.port=9090
+spring.application.name=COURSE-SERVICE
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+=>RestController
+package in.nareshit.raghu.rest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/course")
+public class CourseRestController {
+	
+	@Value("${server.port}")
+	private String port;
+
+	@GetMapping("/data")
+	public String getCourseData() {
+		return "FROM COURSE DATA=>" + port;
+	}
+}
+
+
+---------------------------------------------------
+3. Consumer App (Student)
+Name : SpringCloudLBCStudentService
+Dep  : Spring web, Eureka Discovery Client, Ribbon
+
+=> At starter class: @EnableEurekaClient
+*) application.properties
+server.port=8086
+spring.application.name=STUDENT-SERVICE
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+#eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+
+=> RestConsumer
+package in.nareshit.raghu.consumer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+@Component
+public class CourseRestConsumer {
+
+	//1. Autowire LoadBalancer Client
+	@Autowired
+	private LoadBalancerClient client;
+	
+	public String getCourseData() {
+		//2. Get one SI using ServiceId
+		ServiceInstance si = client.choose("COURSE-SERVICE");
+		
+		//3. read URI add path and make URL
+		String url = si.getUri() + "/course/data";
+		
+		//4. make HTTP call
+		String resp = new RestTemplate().getForObject(url, String.class);
+		
+		//5. return Response
+		return resp;
+	}
+}
+
+
+
+=> RestController
+package in.nareshit.raghu.rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import in.nareshit.raghu.consumer.CourseRestConsumer;
+
+@RestController
+@RequestMapping("/std")
+public class StudentRestController {
+
+	@Autowired
+	private CourseRestConsumer consumer;
+	
+	@GetMapping("/info")
+	public String getInfo() {
+		return "FROM STD==>" + consumer.getCourseData();
+	}
+}
+
+============Execution Order============================
+1. Eureka Server
+2. Provider App (Consumer x 3 times with diff port number)
+3. Consumer App (Student x 1 time )
+4. Goto Eureka and click on Student link
+   http://192.168.0.8:8086/actuator/info
+5. Modify URL
+   http://192.168.0.8:8086/std/info
+
+--Task-------------
+Admin----<>Dept
+*) Write Dept App, Write Admin with DeptRestConsumer using Ribbon
+  Run Dept app at least 3 times with different port.
+------------------------------------
+
+			Date : 16/03/2021
+			Spring Boot 6PM
+			  Mr. RAGHU
+		----------------------------------
+		   MS# Intra Communication
+
+1. DiscoveryClient 
+2. LoadBalacerClient (Ribbon)
+3. ** FeignClient (Open Feign)
+
+---------------------------------------------------------
+           *** FeignClient (Open Feign) ***
+            (spring-cloud-starter-openfeign)
+
+=> It is also called as Declarative ReST Client,
+   it means we need to define one abstract client (Interface)
+   with our details (ServceId, Path, Input and Output details)
+   at runtime one Implclass is generated(Proxy Client)
+   that impl class contains internally LoadBalancerClient code.
+
+
+4 things: ServiceId, Path(URL parts), Parameters(Input), 
+          Expected ReturnType(Response Type)
+
+=> In your MS# app, at starter class we need to add : @EnableFeignClients
+  That activates generating proxies for Interface(Client) given.
+
+=> At your client(RestConsumer interface) add @FeignClient("serviceId").
+=> ** FeignClient looks like abstract format of ProviderRestController.
+----code------------------------------------------------------------------
+			FeignClient(FC)
+
+1. Eureka Server
+Name: SpringCloudFCEurekaServer
+Dep : Eureka Server
+
+=> At Starter class: @EnableEurekaServer
+
+=> application.properties
+server.port=8761
+eureka.client.fetch-registry=false
+eureka.client.register-with-eureka=false
+-----------
+2. Provider App (OrderService)
+Name: SpringCloudFCOrderService
+Dep : Spring web, Eureka Discovery Client
+
+=> At Starter class: @EnableEurekaClient
+
+=> application.properties
+server.port=9090
+spring.application.name=ORDER-SERVICE
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+=> RestContoller
+package in.nareshit.raghu.rest;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/order")
+public class OrderRestController {
+	
+	@Value("${server.port}")
+	private String port;
+
+	@GetMapping("/data")
+	public ResponseEntity<String> showData() {
+		return ResponseEntity.ok("FROM ORDER SERVICE=>"+port);
+	}
+}
+
+-------------
+3. Consumer App (CustomerService)
+Name: SpringCloudFCCustomerService
+Dep : Spring web, Eureka Discovery Client, Open Feign
+
+=> At Starter class: @EnableEurekaClient, @EnableFeignClients
+
+=> application.properties
+server.port=8680
+spring.application.name=CUSTOMER-SERVICE
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+#eureka.instance.instance-id=${spring.application.name}:${random.value}
+
+=> RestConsumer(Feign)**
+package in.nareshit.raghu.consumer;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient("ORDER-SERVICE")
+public interface OrderRestConsumer {
+
+	@GetMapping("/order/data")
+	public ResponseEntity<String> showData();
+}
+
+
+=> RestContoller
+package in.nareshit.raghu.rest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import in.nareshit.raghu.consumer.OrderRestConsumer;
+
+@RestController
+@RequestMapping("/cust")
+public class CustomerRestController {
+	
+	@Autowired
+	private OrderRestConsumer consumer;
+	
+	@GetMapping("/info/{cname}")
+	public String getInfo(
+			@PathVariable String cname
+			) 
+	{
+		return "FROM CUST" + 
+				cname + 
+				" - " + 
+				consumer.showData().getBody();
+	}
+}
+========================Execution Order========================
+1. Eureka Server
+2. Provider App - OrderService (3 times with diff port)
+3. Consumer App - CustomerService
+4. Goto Eureka (http://localhost:8761/) 
+  and click on Customer link
+  http://localhost:8680/actuator/info
+
+5. Modify URL as
+http://localhost:8680/cust/info/AJAY
+
+Task: Implement using OpenFeign
+Purchase---<>Vendor
+Sale---<>Customer
