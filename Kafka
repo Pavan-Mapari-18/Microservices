@@ -1,0 +1,10 @@
+_______________________________________________________________
+			Apache Kafka 
+
+*) Kafka is a advanced Messge Queue software given by Apache Vendor.
+*) Kafka is implemented using Scala + Apache Zookeeper
+*) Kafka supports Multiple Message Broker concept(ie Load Balance)
+*) Kafka send/receive data using Partitions (Message Blocks).
+*) Kafka S/w is protocol independent (it uses App protocol only)
+*) Kafka supports only Topic(Destination Type)
+   but even we can use it for 1...1 communication.
