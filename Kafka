@@ -8,3 +8,82 @@ _______________________________________________________________
 *) Kafka S/w is protocol independent (it uses App protocol only)
 *) Kafka supports only Topic(Destination Type)
    but even we can use it for 1...1 communication.
+
+===================================================================
+Message Broker : 
+=>  It is a mediator, that reads message from Topic Section.
+=>  It will create a cloned copy (Duplicate) using Message Replica.
+=>  Message will be sent to consumer based on "topicName".
+=>  One Broker will send message to one consumer at a time
+    in same way Multiple Consumer connected with Multiple brokers
+    for fast service.
+
+Kafka Cluster : Collection of Message Brokers
+
+     When we start Kafka S/w, 1 Message broker is created default.
+     Zookeeper creates Message Broker instances based on Load
+     (ie no.of consumers connected) and in-activates when there
+     is no use.
+     ie Zookeeper controls the cluster(it is atomated)
+
+*) Zookeeper also called as Bootstrap server(on startup create setup)
+
+   +-----------------------------------------------+
+   | Kafka Eco-System = Kafka Cluster + Zookeeper  |
+   +-----------------------------------------------+
+
+*) Topics Section : 
+=>   It is a message storage area. It will store data in key=val
+      Key=TopicName , V = Message
+
+=>   Every message is divided into multiple parts (Partitions)
+     index with 0,1,2,3...
+     
+       topicName = sample-one
+    +------+------+------+------+------+------+------+------+
+    |  P0  |  P1  |  P2  |  P3  |  P4  | ....  ...
+    +------+------+------+------+------+------+------+------+
+   
+=> Producer will send data in Key=Val (data in serialized mode)
+   to Eco-System, that stores data in Topic Memory.
+
+=> Consumer will get data from Message Broker (allocated by R&D).
+  it will get data again in Key=Val (topicName [key] must be matching)
+  [Consumer gets cloned copy] in de-serialized format.
+
+*) Serialization process is applied on our data todo Data Partitions
+   (ie over binary data).
+
+--------------------------------------------------------------------------------------------
+
+Command for Kafka:
+
+1. Start Zookeeper
+					.\bin\windows\zookeeper-server-start.bat  .\config\zookeeper.properties
+
+2. Start Kafka server: (New Terminals)
+			.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+3️⃣ Create a Topic
+Open Terminal 3 and run:
+		.\bin\windows\kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+
+verify topic creation: all available topics will be show here
+  .\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+
+4️⃣ Start Producer
+Still in Terminal 3 (or new one), run:
+
+.\bin\windows\kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092
+
+--> You will see a blinking cursor — now type: hellpo pavan knjidkf
+
+5️⃣ Start Consumer
+Open Terminal 4 and run:
+
+.\bin\windows\kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
+
+You should now see:
+        all the data entered in produce will be see in Consumer(here).
+
+
