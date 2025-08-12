@@ -60,24 +60,24 @@ Command for Kafka:
 
 1. Start Zookeeper
 					.\bin\windows\zookeeper-server-start.bat  .\config\zookeeper.properties
-
+_______________________________________________________________
 2. Start Kafka server: (New Terminals)
 			.\bin\windows\kafka-server-start.bat .\config\server.properties
-
+_______________________________________________________________
 3️⃣ Create a Topic
 Open Terminal 3 and run:
 		.\bin\windows\kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
 
 verify topic creation: all available topics will be show here
   .\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
-
+_______________________________________________________________
 4️⃣ Start Producer
 Still in Terminal 3 (or new one), run:
 
 .\bin\windows\kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092
 
 --> You will see a blinking cursor — now type: hellpo pavan knjidkf
-
+_______________________________________________________________
 5️⃣ Start Consumer
 Open Terminal 4 and run:
 
@@ -85,5 +85,5 @@ Open Terminal 4 and run:
 
 You should now see:
         all the data entered in produce will be see in Consumer(here).
-
+_____________________________________________________________________________________________________________________________________________________________________________________________
 
