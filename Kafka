@@ -1,3 +1,27 @@
+
+--------------------------------------Kafka---------------------------------------------------------
+JMS/ActiveMQ5:-
+
+*)Limitations:
+
+a. There will be only one instance of MOM s/w
+   It is not supprting Load Balance Concept.
+b. If No.of Consumer/Producers gets increased
+    then MOM s/w becomes very slow.
+c. Large data trasfer may lead data leak.
+    { Full data may not be sent }
+d. Fully Language Dependent. 
+    ie Both Consumer and Producer must be implemented
+     using Java only.
+e. If MOM s/w is down/re-start then data lose may occured.
+f. It is protocol dependent, even we develop webservice
+   application using HTTP, it uses tcp mainly.
+==============================================================
+Where can use ActiveMQ5:-
+a. small scale applications
+b. no.of consumers and producers are less(max 20)
+c. Seding simple data/normal size data(at max 1GB)
+ 
 _______________________________________________________________
 			Apache Kafka 
 
@@ -54,36 +78,449 @@ Kafka Cluster : Collection of Message Brokers
 *) Serialization process is applied on our data todo Data Partitions
    (ie over binary data).
 
---------------------------------------------------------------------------------------------
+=======================================================================
+Kafka Software download and basic commands
 
-Command for Kafka:
+a. Goto : https://kafka.apache.org/downloads
+b. click on (Under binary downloads)
+     Scala 2.13 => kafka_2.13-2.7.0.tgz 
+c. It will be moved download mirror site
+d. Extract to one folder and paste in C:/ drive
+  "kafka_2.13-2.7.0"
+e. Open cmd prompt in current location and
+   execute below commands
 
 1. Start Zookeeper
-					.\bin\windows\zookeeper-server-start.bat  .\config\zookeeper.properties
-_______________________________________________________________
-2. Start Kafka server: (New Terminals)
-			.\bin\windows\kafka-server-start.bat .\config\server.properties
-_______________________________________________________________
-3️⃣ Create a Topic
-Open Terminal 3 and run:
-		.\bin\windows\kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+.\bin\windows\zookeeper-server-start.bat  .\config\zookeeper.properties
 
-verify topic creation: all available topics will be show here
-  .\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
-_______________________________________________________________
-4️⃣ Start Producer
-Still in Terminal 3 (or new one), run:
+2. Start Kafka server
+.\bin\windows\kafka-server-start.bat  .\config\server.properties
 
-.\bin\windows\kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092
+3. Create new Topic with partitions, replication -factor
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1  --partitions 1 --topic nita
 
---> You will see a blinking cursor — now type: hellpo pavan knjidkf
-_______________________________________________________________
-5️⃣ Start Consumer
-Open Terminal 4 and run:
+4. create producer
+.\bin\windows\kafka-console-producer.bat --bootstrap-server localhost:9092 --topic nita
 
-.\bin\windows\kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
+5. create consumer
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic nita --from-beginning
 
-You should now see:
-        all the data entered in produce will be see in Consumer(here).
-_____________________________________________________________________________________________________________________________________________________________________________________________
+press ctl+c in reverse order and exist
+a. Consumer
+b. Producer
+c. topic
+d. Kafka Server
+e. Zookeeper
 
+=> Zookeeper runs on Port 2181 (by default), value is given inside
+   zookeeper.properties
+
+=> Kafka Server setup linked with Zookeeper (Bootstrap server)
+   runs on port : 9092
+
+=> Every Topic is created at Kafka S/w (instructions given to zookeeper)
+   with below details
+    topicName (string)
+    zookeeper details(IP/PORT)  
+    replication-factor (int)
+    partitions value   (int)
+
+replication-factor=>Max no.of cloning should be done over topic data
+partitions value=> Max no.of parts created for a message given to topic
+
+=> Both Producer and Consumer are connected to runtime s/w
+  (bootstrap server) with one topicname.
+
+Q) What is the use of --from-beginning at Consumer creation?
+A) To read messges sent by producer before starting consumer
+   when we start consumer. If not provided then consumer reads
+   only after its start point.
+
+-ex:-
+a. Producer messages (6:30PM Started)
+  > hello
+  > hi
+  > one
+  > test   (6:45PM)
+  > ok
+
+b. consumer#1 started at 6:45PM, without --from-beginning
+ > test
+ > ok
+
+c. consumer#2 started at 6:45PM  with --from-beginning
+  > hello
+  > hi
+  > one
+  > test  
+  > ok
+===========================================================
+*) Producer and Consumers must not be console based apps 
+  in realtime, in this place we need to create one application
+  (Using Java, .net, PHP..etc)
+  
+  Spring Boot + Apache Kafka
+		       (API Details)
+
+*) We should create one Spring Boot application with dependency
+          'Spring for Apache Kafka'
+
+pom.xml
+<dependency>
+	<groupId>org.springframework.kafka</groupId>
+	<artifactId>spring-kafka</artifactId>
+</dependency>
+
+Producer :
+=> KafkaTemplate(C) is a pre-defined class given by Spring F/w + Kafka
+=> By using this class we can send messages to Kafka S/w
+=> Data is sent in Key=Val format (Key=TopicName,V=Message)
+=> Serialization is done using 'StringSerializer'
+    [org.apache.kafka.common.serialization]
+=> Producer App must be connected with 'bootstrap server (9092)'
+  [to modify this port number, goto file server.properties]
+
+Consumer :
+=> Use @KafkaListener(topics="---",groupId="---")
+   This annotation must be applied at conumer class.
+=> It will inform to Kafka S/w for data using given topicName.
+=> Now Zookeper will search for given topicName under topics section.
+  If found, then Topic data is given to MessageReplica and allocates
+  one Message Consumer.
+=> Data is received in Key=Val format (Key=TopicName,V=Message)
+=> Deserialization is done using 'StringDeserializer'
+    [org.apache.kafka.common.serialization]
+=> Consumer App must be connected with 'bootstrap server (9092)'
+  [to modify this port number, goto file server.properties]
+======================================================================
+
+Q) What is groupId ? why it is required in coding ?
+A) _________________
+
+case study: (mini project)
+   RestController
+ + Data JPA
+ + Kafka API
+
+--Code files---------
+1. Model class
+2. Repository
+3. MessageStore
+4. ProducerService
+5. ConsumerService
+6. RestController
+7. application.yml
+-----------------------
+
+
+Step#1 Create one Starter Project
+Name : SpringBoot2ApacheKafkaEx
+Dep  : Spring Web, Lombok, MySQL, Spring Data JPA, 
+       Spring for Apache Kafka
+
+Step#2 application.properties
+
+#Server props
+server.port=9898
+
+#DataSource
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/boot6pm
+spring.datasource.username=root
+spring.datasource.password=root
+
+# Data JPA
+spring.jpa.show-sql=true
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=create
+
+# Producer keys
+spring.kafka.producer.bootstrap-servers=localhost:9092
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Consumer keys
+spring.kafka.consumer.bootstrap-servers=localhost:9092
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.group-id=group-id
+
+
+--application.yml-------
+my:
+  kafka-tpc-name: my-tpc
+server:
+  port: 9898
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: root 
+    url: jdbc:mysql://localhost:3306/boot6pm
+    username: root
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: group-id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+logging:
+  file:
+    name: my-app.log
+    max-history: 7
+    max-size: 10MB   
+-----------------------------------------------------
+Step#3 Model
+
+package in.nareshit.raghu.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="kafkak_message_tab")
+public class KafkaMessage {
+
+	@Id
+	@GeneratedValue
+	@Column(name="km_id_col")
+	private Integer id;
+	
+	@Column(name="km_msg_col")
+	private String message;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="km_dte_stmap_col")
+	private Date dteStamp;
+}
+
+
+Step#4  Repository interface
+package in.nareshit.raghu.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import in.nareshit.raghu.model.KafkaMessage;
+public interface KafkaMessageRepository 
+	extends JpaRepository<KafkaMessage, Integer> {
+
+}
+
+Step#5 MessageStore
+package in.nareshit.raghu.dao;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import in.nareshit.raghu.model.KafkaMessage;
+import in.nareshit.raghu.repo.KafkaMessageRepository;
+
+@Component
+public class MessageStore {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(MessageStore.class);
+	
+	@Autowired
+	private KafkaMessageRepository repo;
+	
+	public void addMessage(KafkaMessage msg){
+		msg=repo.save(msg);
+		LOG.info("MESSAGE IS STORED AT DATABASE {}",msg.getId());
+	}
+	
+	public List<KafkaMessage> getAllMessages() {
+		LOG.info("FETCHING MESSAGES FROM DATABASE");
+		return repo.findAll();
+	}
+}
+
+Step#6 ProducerService
+package in.nareshit.raghu.service;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProducerService {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(ProducerService.class);
+
+	@Value("${my.kafka-tpc-name}")
+	private String topic;
+	
+	@Autowired
+	private KafkaTemplate<String, String> template;
+	
+	public void send(String message) {
+		LOG.info("SENDING MESSAGE TO KAFKA RUNTIME");
+		template.send(topic, message);
+		LOG.info("SENDT SUCCESFULLY FROM PRODUCER!!");
+	}
+	
+}
+
+Step#7 ConsumerService
+package in.nareshit.raghu.service;
+
+import java.util.Date;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+import in.nareshit.raghu.dao.MessageStore;
+import in.nareshit.raghu.model.KafkaMessage;
+
+@Component
+public class ConsumerService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ConsumerService.class);
+	
+	@Autowired
+	private MessageStore ms;
+	
+	@KafkaListener(topics = "${my.kafka-tpc-name}",groupId = "group-id")
+	public void readDataFromkafka(String message) {
+		LOG.info("MESSAGE RECEIVED AT CONSUMER");
+		ms.addMessage(
+				new KafkaMessage(message, new Date())
+				);
+		LOG.info("MESSAGE IS PERSISTED BY STORE");
+		
+	}
+	
+}
+
+Step#8 RestControllerS
+package in.nareshit.raghu.rest;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import in.nareshit.raghu.dao.MessageStore;
+import in.nareshit.raghu.model.KafkaMessage;
+import in.nareshit.raghu.service.ProducerService;
+
+@RestController
+@RequestMapping("/kafka")
+public class KafkaRestController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(KafkaRestController.class);
+
+	@Autowired
+	private ProducerService producer;
+	
+	@Autowired
+	private MessageStore store;
+	
+	@GetMapping("/send/{msg}")
+	public ResponseEntity<String> sendMessage(
+			@PathVariable String msg
+			) 
+	{
+		ResponseEntity<String> resp = null;
+		LOG.info("REST CONTROLLER IS ABOUT TO SEND MESSAGE");
+		try {
+			producer.send(msg);
+			LOG.info("REST CONTROLLER FINISHED SENDING");
+			resp = new ResponseEntity<String>(
+					"SENT SUCCESSFULLY!",
+					HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			LOG.error("SENDING FAILED {}",e.getMessage());
+			e.printStackTrace();
+			resp = new ResponseEntity<String>(
+					"UNABLE TO SEND!",
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		LOG.info("RETURN FROM REST CONTROLLER  SEND MESSAGE");
+		
+		return resp;
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<?> viewAllMessages(){
+		LOG.info("ENTERED INTO FETCH ALL MESG"); 
+		ResponseEntity<?> resp = null;
+		try {
+			List<KafkaMessage> list = store.getAllMessages();
+			LOG.info("DATA FETCH SUCCESSFUL!");
+			resp = new ResponseEntity<List<KafkaMessage>>(list,HttpStatus.OK);
+		}  catch (Exception e) {
+			LOG.error("FETCHING FAILED {}",e.getMessage());
+			e.printStackTrace();
+			resp = new ResponseEntity<String>(
+					"UNABLE TO FETCH!",
+					HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return resp;
+	}
+}
+===========================================
+Run in order:
+1. Start Zookeeper
+.\bin\windows\zookeeper-server-start.bat  .\config\zookeeper.properties
+
+2. Start Kafka server
+.\bin\windows\kafka-server-start.bat  .\config\server.properties
+
+3. Now Start Spring Boot Application
+
+4. Execute URLs:
+a. send msg
+http://localhost:9898/kafka/send/HelloData
+b. fetch data 
+http://localhost:9898/kafka/all
+
+=======================================
+Q) Why groupId is required in Kafka Coding?
+A) It is used to avoid topic creation with
+   replication factor (which need to be changed
+    at runtime based on consumers count).
+
+ If 4 consumers are running with groupId for
+ given topic then, Consumer sets to Runtime
+  as replication factor as 4.
+
+*) Default partition count is 1. To provide other value
+   you create topic manually using all details.
+====================================================
